@@ -10,4 +10,14 @@ module.exports.queryString = obj =>
   Object.entries(obj).map(keyValueToString).join('&');
 
 module.exports.parse = obj =>
-  Object.fromEntries(obj.split('&').map(item => item.split('=')));
+  Object.fromEntries(
+    obj.split('&').map(item => {
+      let [key, value] = item.split('=');
+
+      if (value.indexOf(',') > -1) {
+        value = value.split(',');
+      }
+
+      return [key, value];
+    }),
+  );
